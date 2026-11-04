@@ -1,0 +1,7 @@
+[
+  {
+    "key": "ctrl+alt+r",
+    "command": "code-runner.run",
+    "when": "editorLangId == 'python'"
+  }
+]
