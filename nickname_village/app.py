@@ -8,7 +8,7 @@ from resident_db import init_db, get_residents, add_resident, update_resident, d
 st.set_page_config(page_title="디동숲", page_icon="🌳", layout="wide")
 st.markdown("""<style>
 .stApp {background:#ffffff;color:#000000}
-h1,h2,h3 {color:#000000!important}
+h1 {color:#000000!important}
 div[data-testid="stVerticalBlockBorderWrapper"] {background:#fffdf5;border-radius:18px}
 div.stButton>button {border-radius:12px}
 </style>""", unsafe_allow_html=True)
