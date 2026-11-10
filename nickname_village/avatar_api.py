@@ -1,4 +1,3 @@
-"""DiceBear에 요청하여 아바타 SVG를 가져오는 모듈."""
 import requests
 import xml.etree.ElementTree as ET
 
