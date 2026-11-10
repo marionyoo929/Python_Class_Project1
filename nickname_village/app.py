@@ -20,9 +20,6 @@ except sqlite3.Error:
     st.error("주민 등록부를 열 수 없어요. 폴더의 쓰기 권한을 확인해 주세요.")
     st.stop()
 
-if "notice" in st.session_state:
-    st.success(st.session_state.pop("notice"))
-
 st.title("디동숲")
 st.caption(f"입주민 {len(residents)}명 · 빈집 {6-len(residents)}채")
 by_house = {r["house_no"]: r for r in residents}
@@ -66,7 +63,6 @@ if page == "우리 마을":
             if st.form_submit_button("설정 저장"):
                 try:
                     update_resident(selected["id"], job, personality)
-                    st.session_state["notice"] = "주민의 이야기를 수정했어요."
                     st.rerun()
                 except (ValueError, sqlite3.Error) as error:
                     st.error(str(error))
@@ -76,14 +72,13 @@ if page == "우리 마을":
                 try:
                     delete_resident(selected["id"])
                     st.session_state.pop("selected_id", None)
-                    st.session_state["notice"] = "주민이 떠났어요. 이 집에는 새 주민이 입주할 수 있어요."
                     st.rerun()
                 except sqlite3.Error:
                     st.error("퇴거 처리에 실패했어요. 다시 시도해 주세요.")
 
 if page == "새 주민 맞이하기":
     if not empty_houses:
-        st.info("여섯 집이 모두 찼어요. 주민이 퇴거하면 새로 입주할 수 있어요.")
+        st.info("집이 다 찼어요. 주민이 퇴거하면 새로 입주할 수 있어요.")
     else:
         st.subheader("닉네임으로 주민 사진 만들기")
         with st.form("generate"):
@@ -94,7 +89,7 @@ if page == "새 주민 맞이하기":
             # 실패한 요청이 이전 사진을 잘못 등록하게 하지 않도록 초안을 비운다.
             st.session_state.pop("draft", None)
             try:
-                with st.spinner("새 이웃의 모습을 찾고 있어요…"):
+                with st.spinner("새 이웃의 사진을 찾고 있어요…"):
                     svg = get_avatar(nickname, STYLES[style_label])
                 st.session_state["draft"] = {
                     "nickname": nickname.strip(), "style": STYLES[style_label], "svg": svg}
@@ -113,7 +108,6 @@ if page == "새 주민 맞이하기":
                     try:
                         add_resident(draft["nickname"], draft["style"], draft["svg"], house, job, personality)
                         st.session_state.pop("draft", None)
-                        st.session_state["notice"] = f"{draft['nickname']} 주민이 {house}번 집에 입주했어요!"
                         st.rerun()
                     except (ValueError, sqlite3.Error) as error:
                         st.error(str(error))
