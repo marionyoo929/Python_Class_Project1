@@ -40,6 +40,7 @@ def get_rest_api_data():
 
     rows = []
     for item in data:
+        
         address = item["address"]
         geo = address["geo"]
 

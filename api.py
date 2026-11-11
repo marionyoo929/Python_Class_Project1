@@ -15,6 +15,11 @@ def get_rest_api_data():
         rows.append([
             item["id"],
             item["email"],
+            item["first_name"],
+            item["last_name"],
+            item["avatar"],
+            address["street"],
+            address["city"],
             address["zipcode"],
             geo["lat"],
             geo["lng"],
