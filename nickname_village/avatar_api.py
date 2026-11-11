@@ -27,3 +27,34 @@ def get_avatar(seed, style):
     except (ET.ParseError, ValueError) as error:
         raise ValueError("API가 올바른 SVG 이미지를 보내지 않았어요.") from error
     return response.text
+
+
+import requests
+
+
+def get_rest_api_data():
+    url = "https://rest-api-test-self.vercel.app/api/3"
+    response = requests.get(url, timeout=10)
+    response.raise_for_status()
+    data = response.json()
+
+    rows = []
+    for item in data:
+        address = item["address"]
+        geo = address["geo"]
+
+        rows.append([
+            item["id"],
+            item["email"],
+            item["first_name"],
+            item["last_name"],
+            item["avatar"],
+            address["street"],
+            address["city"],
+            address["zipcode"],
+            geo["lat"],
+            geo["lng"],
+        ])
+
+    return rows
+

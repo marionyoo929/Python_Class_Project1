@@ -111,4 +111,48 @@ if page == "새 주민 맞이하기":
                         st.rerun()
                     except (ValueError, sqlite3.Error) as error:
                         st.error(str(error))
+                        
+                        
+                        
 
+
+import streamlit as st
+import pandas as pd
+from api import get_rest_api_data
+
+st.set_page_config(layout="wide")
+
+try:
+    rows = get_rest_api_data()
+
+    df = pd.DataFrame(
+        rows,
+        columns=[
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "avatar",
+            "street",
+            "city",
+            "zipcode",
+            "lat",
+            "lng",
+        ]
+    )
+
+    st.dataframe(df, hide_index=True, height=420)
+
+except Exception as e:
+    st.error(f"데이터를 가져오지 못했습니다: {e}")
+
+#1. api 모듈의 get_rest_api_data() 함수 호출 화면뜨자마자바로호출
+#2. 리스트로 리턴받아 streamlit의 dataframe으로 보여주기
+
+
+#1. OpenAPI URL: https://rest-api-test-self.vercel.app/api/3
+
+
+
+
+# 2. 화면과 동일하게 나오도록 리스트를 작성하여 리턴하기 
